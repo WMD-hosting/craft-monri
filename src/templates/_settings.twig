@@ -1,0 +1,95 @@
+{# @var plugin \wmd\craftmonri\Monri #}
+{# @var settings \wmd\craftmonri\models\Settings #}
+{% import '_includes/forms.twig' as forms %}
+{% set t = 'monri' %}
+
+<h2>{{ 'Shop'|t(t) }}</h2>
+
+{{ forms.autosuggestField({
+    first: true,
+    label: 'Shop ID'|t(t),
+    id: 'storeId',
+    name: 'storeId',
+    value: settings.storeId,
+    required: true,
+    suggestEnvVars: true,
+    errors: settings.getErrors('storeId'),
+}) }}
+
+{{ forms.autosuggestField({
+    label: 'Secret key'|t(t),
+    instructions: 'Issued with the shop. Prefer an environment variable, e.g. $MONRI_SECRET_KEY.'|t(t),
+    id: 'secretKey',
+    name: 'secretKey',
+    value: settings.secretKey,
+    required: true,
+    suggestEnvVars: true,
+    errors: settings.getErrors('secretKey'),
+}) }}
+
+{{ forms.autosuggestField({
+    label: 'Payment form URL'|t(t),
+    instructions: 'https://formtest.wspay.biz/authorization.aspx for testing, https://form.wspay.biz/authorization.aspx for production.'|t(t),
+    id: 'storeUrl',
+    name: 'storeUrl',
+    value: settings.storeUrl,
+    required: true,
+    suggestEnvVars: true,
+    errors: settings.getErrors('storeUrl'),
+}) }}
+
+{{ forms.autosuggestField({
+    label: 'Transaction API URL'|t(t),
+    instructions: 'https://test.wspay.biz/api/services/ for testing, https://secure.wspay.biz/api/services/ for production. Used for completion, void and refund.'|t(t),
+    id: 'storeUrlApis',
+    name: 'storeUrlApis',
+    value: settings.storeUrlApis,
+    required: true,
+    suggestEnvVars: true,
+    errors: settings.getErrors('storeUrlApis'),
+}) }}
+
+<hr>
+<h2>{{ 'Storefront'|t(t) }}</h2>
+
+{{ forms.textField({
+    label: 'Phone field handle'|t(t),
+    instructions: 'Handle of the custom field on addresses that holds the phone number, sent as CustomerPhone. Leave empty to skip.'|t(t),
+    id: 'phoneField',
+    name: 'phoneField',
+    value: settings.phoneField,
+}) }}
+
+{{ forms.elementSelectField({
+    label: 'Logo'|t(t),
+    instructions: 'Shown next to the payment method; available in templates as craft.monri.logo.'|t(t),
+    id: 'logoId',
+    name: 'logoId',
+    elements: settings.logoId ? craft.assets.id(settings.logoId).all() : [],
+    elementType: 'craft\\elements\\Asset',
+    criteria: { kind: 'image' },
+    limit: 1,
+    viewMode: 'large',
+}) }}
+
+{{ forms.autosuggestField({
+    label: 'Fallback success URL'|t(t),
+    instructions: 'Used when the order has no return URL.'|t(t),
+    id: 'successUrl', name: 'successUrl', value: settings.successUrl, suggestEnvVars: true,
+}) }}
+
+{{ forms.autosuggestField({
+    label: 'Fallback cancel URL'|t(t),
+    instructions: 'Used when the order has no cancel URL.'|t(t),
+    id: 'failUrl', name: 'failUrl', value: settings.failUrl, suggestEnvVars: true,
+}) }}
+
+<hr>
+<h2>{{ 'Return URLs'|t(t) }}</h2>
+<p class="light">{{ 'The plugin sends these with every payment, so nothing has to be configured on the Monri side. Listed for reference.'|t(t) }}</p>
+{% set trigger = craft.app.config.general.actionTrigger %}
+<ul class="bullets">
+    <li><strong>{{ 'Return URL'|t(t) }}:</strong> <code>{{ siteUrl(trigger ~ '/monri/payment/return') }}</code></li>
+    <li><strong>{{ 'Cancel URL'|t(t) }}:</strong> <code>{{ siteUrl(trigger ~ '/monri/payment/cancel') }}</code></li>
+    <li><strong>{{ 'Error URL'|t(t) }}:</strong> <code>{{ siteUrl(trigger ~ '/monri/payment/error') }}</code></li>
+</ul>

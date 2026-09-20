@@ -1,0 +1,67 @@
+{
+    "name": "wmd/craft-monri",
+    "description": "Monri payment gateway for Craft Commerce (WSPay form protocol): hosted card checkout with installments, authorization and completion, void and refund.",
+    "type": "craft-plugin",
+    "license": "MIT",
+    "keywords": [
+        "craft",
+        "craftcms",
+        "craft-plugin",
+        "craft-commerce",
+        "commerce",
+        "payment",
+        "gateway",
+        "monri",
+        "wspay",
+        "croatia",
+        "installments"
+    ],
+    "support": {
+        "docs": "https://github.com/WMD-hosting/craft-monri/blob/main/README.md",
+        "issues": "https://github.com/WMD-hosting/craft-monri/issues"
+    },
+    "authors": [
+        {
+            "name": "WMD",
+            "homepage": "https://wmd.hr/"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "craftcms/cms": "^5.0.0",
+        "craftcms/commerce": "^5.0.0"
+    },
+    "require-dev": {
+        "craftcms/ecs": "dev-main",
+        "craftcms/phpstan": "dev-main"
+    },
+    "autoload": {
+        "psr-4": {
+            "wmd\\craftmonri\\": "src/"
+        }
+    },
+    "extra": {
+        "handle": "monri",
+        "name": "Monri",
+        "developer": "WMD",
+        "developerUrl": "https://wmd.hr/",
+        "documentationUrl": "https://github.com/WMD-hosting/craft-monri/blob/main/README.md",
+        "changelogUrl": "https://raw.githubusercontent.com/WMD-hosting/craft-monri/main/CHANGELOG.md",
+        "class": "wmd\\craftmonri\\Monri"
+    },
+    "scripts": {
+        "check-cs": "ecs check --ansi",
+        "fix-cs": "ecs check --ansi --fix",
+        "phpstan": "phpstan --memory-limit=1G"
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "8.2"
+        },
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "craftcms/plugin-installer": true
+        }
+    }
+}
